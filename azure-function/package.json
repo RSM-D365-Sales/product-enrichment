@@ -1,0 +1,16 @@
+{
+  "name": "product-enrichment-agent-helper",
+  "version": "0.1.0",
+  "description": "Auth + MCP proxy helper for the Product Enrichment Agent demo (token minting via client credentials, D365 ERP MCP forwarding).",
+  "type": "module",
+  "main": "src/functions/*.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "func start"
+  },
+  "dependencies": {
+    "@azure/functions": "^4.6.0"
+  }
+}

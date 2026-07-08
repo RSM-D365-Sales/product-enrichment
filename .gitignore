@@ -1,0 +1,8 @@
+node_modules/
+dist/
+*.local
+.DS_Store
+azure-function/local.settings.json
+
+# internal working docs
+*.docx

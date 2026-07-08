@@ -1,0 +1,47 @@
+/* Vince quiet-luxury design tokens — cream / ink / camel.
+   Chart data colors validated with the dataviz palette validator
+   (light surface #FBF9F3): --data-1 #9A6E2A passes lightness band,
+   chroma floor and ≥3:1 contrast. */
+:root {
+  /* surfaces */
+  --page: #f4f0e7;
+  --card: #fbf9f3;
+  --card-2: #f6f2e8;
+
+  /* ink */
+  --ink: #1c1b18;
+  --ink-2: #5b584f;
+  --muted: #8d897d;
+
+  /* lines */
+  --hairline: #e4dece;
+  --hairline-2: #d8d1bd;
+
+  /* brand accent (UI chrome — buttons, pills, focus) */
+  --camel: #b08d57;
+  --camel-deep: #8a6a3f;
+  --camel-wash: rgba(176, 141, 87, 0.12);
+
+  /* data marks (validated) */
+  --data-1: #9a6e2a;
+  --data-1-soft: rgba(154, 110, 42, 0.16);
+
+  /* status — fixed scale, never used for series identity; always icon + label */
+  --status-good: #0ca30c;
+  --status-good-text: #006300;
+  --status-warning: #fab219;
+  --status-warning-text: #8a6205;
+  --status-critical: #d03b3b;
+  --status-critical-text: #b02e2e;
+  --status-neutral: #8d897d;
+
+  /* type */
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Jost', 'Segoe UI', system-ui, sans-serif;
+
+  /* layout */
+  --nav-width: 216px;
+  --chat-width: 384px;
+  --radius: 10px;
+  --radius-sm: 6px;
+}
