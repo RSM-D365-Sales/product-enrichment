@@ -91,6 +91,28 @@ Have these ready before you start (a scratch notepad helps):
 > While testing from `npm run dev` you can temporarily set `ALLOWED_ORIGIN` to `*`,
 > then tighten it to the Pages origin before the demo.
 
+### Step 4b — Platform CORS (required on Flex Consumption)
+
+On **Flex Consumption** plans the platform intercepts every `OPTIONS` preflight before it
+reaches the function code, so the in-code CORS alone is not enough — you must also
+configure CORS on the Function App itself:
+
+1. Function App → **API → CORS**.
+2. Add the site origins: `https://www.rsmd365.com`, `http://localhost:5173`,
+   `http://localhost:4173` (scheme + host only, no paths).
+3. Save. (The pre-seeded `https://portal.azure.com` entry only matters for testing
+   functions inside the portal — keep or remove as you like.)
+
+CLI equivalent:
+
+```sh
+az functionapp cors add -n <func-name> -g <resource-group> \
+  --allowed-origins https://www.rsmd365.com http://localhost:5173 http://localhost:4173
+```
+
+The platform then answers preflights and stamps the correct `Access-Control-Allow-Origin`
+per origin; the in-code headers still expose `mcp-session-id` so the MCP session works.
+
 ## Step 5 — Deploy the code (VS Code, no CLI)
 
 1. Clone the repo if you haven't:
@@ -142,7 +164,7 @@ On the deployed site (or localhost) → **Setup → Dynamics 365 ERP MCP**:
 
 | If the MCP test fails with… | Check… |
 | --- | --- |
-| CORS error in the browser console | `ALLOWED_ORIGIN` exactly equals the site's origin — `https://www.rsmd365.com`, no path/trailing slash. Restart isn't needed; re-save settings and retry |
+| CORS error in the browser console | Step 4b first (on Flex, platform CORS must list the origin — a bare 204 preflight with no `Access-Control-*` headers is the tell); then `ALLOWED_ORIGIN` exactly equals the site's origin — `https://www.rsmd365.com`, no path/trailing slash |
 | `401/403` from the D365 endpoint | Step 2: client ID on **Allowed MCP clients**, app mapped to a user, user has roles |
 | `400 MCP target must be …dynamics.com` | The MCP URL field / `D365_MCP_URL` value |
 | `502` | The Function couldn't reach the environment (URL typo, or environment in a servicing window) |
