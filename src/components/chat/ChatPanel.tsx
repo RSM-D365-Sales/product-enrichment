@@ -10,7 +10,7 @@ const SUGGESTIONS = [
 ]
 
 export function ChatPanel() {
-  const { messages, busy, providerLabel, send, confirmCard, dismissCard } = useChat()
+  const { messages, busy, providerLabel, send, confirmCard, dismissCard, clear } = useChat()
   const [draft, setDraft] = useState('')
   const bodyRef = useRef<HTMLDivElement>(null)
 
@@ -29,8 +29,18 @@ export function ChatPanel() {
   return (
     <aside className="chat" aria-label="Product enrichment assistant">
       <div className="chat-head">
-        <div className="title">Enrichment Assistant</div>
-        <div className="mode">{providerLabel}</div>
+        <div>
+          <div className="title">Enrichment Assistant</div>
+          <div className="mode">{providerLabel}</div>
+        </div>
+        <button
+          className="btn small"
+          onClick={clear}
+          disabled={busy}
+          title="Start a new conversation"
+        >
+          New chat
+        </button>
       </div>
 
       <div className="chat-body" ref={bodyRef}>
@@ -50,7 +60,7 @@ export function ChatPanel() {
                 card={c}
               />
             ))}
-            {m.streaming && m.content ? <div className="typing">Claude is responding…</div> : null}
+            {m.streaming && m.content ? <div className="typing">Responding…</div> : null}
           </div>
         ))}
         {busy && !messages.some((m) => m.streaming && m.content) ? (

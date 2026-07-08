@@ -1,6 +1,5 @@
 import { NavLink, Outlet } from 'react-router-dom'
 import { ChatPanel } from '../chat/ChatPanel'
-import { useConfig } from '../../context/ConfigContext'
 
 const NAV = [
   { to: '/', label: 'Workspace', end: true },
@@ -9,7 +8,6 @@ const NAV = [
 ]
 
 export function AppShell() {
-  const { config } = useConfig()
   return (
     <div className="shell">
       <nav className="nav">
@@ -29,12 +27,7 @@ export function AppShell() {
             </NavLink>
           ))}
         </div>
-        <div className="nav-foot">
-          PLM → D365 F&amp;SC
-          <br />
-          {config.dataSource === 'mock' ? 'Sample data' : 'Live D365'} ·{' '}
-          {config.assistant.provider === 'claude-foundry' ? 'Claude (Foundry)' : 'Offline assistant'}
-        </div>
+        <div className="nav-foot">PLM → D365 F&amp;SC</div>
       </nav>
 
       <main className="main">

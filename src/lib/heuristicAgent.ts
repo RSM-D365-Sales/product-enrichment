@@ -197,7 +197,7 @@ export function runHeuristicAgent(text: string, ctx: ToolContext): HeuristicRepl
       `• "Retire V801-1001 in 30 days" · "Release V831-7001 to VUS and VCA"\n` +
       `• "Add size XL and color Navy to V820-4002 for VUS"\n\n` +
       `Every change I draft becomes a card you confirm — nothing is applied automatically.\n` +
-      `Tip: switch the assistant to Claude on Microsoft Foundry in Setup for free-form conversation.`,
+      `Tip: connect the live assistant in Setup for free-form conversation.`,
     cards,
   }
 }

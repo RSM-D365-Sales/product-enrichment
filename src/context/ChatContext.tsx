@@ -65,9 +65,12 @@ export function ChatProvider({ children }: { children: ReactNode }) {
   const mcpActive =
     useFoundry && config.assistant.mcp.enabled && !!config.assistant.mcp.url.trim()
 
+  // Audience-neutral status — transport details stay on the Setup page.
   const providerLabel = useFoundry
-    ? `Claude · Microsoft Foundry (${config.assistant.foundry.model})${mcpActive ? ' + D365 ERP MCP' : ''}`
-    : 'Heuristic · offline'
+    ? mcpActive
+      ? 'Online · Dynamics 365 connected'
+      : 'Online'
+    : 'Offline mode'
 
   const patchMessage = useCallback((id: string, patch: Partial<ChatMessage>) => {
     setMessages((prev) => prev.map((m) => (m.id === id ? { ...m, ...patch } : m)))
@@ -129,9 +132,8 @@ export function ChatProvider({ children }: { children: ReactNode }) {
           streaming: false,
           error: true,
           content:
-            `The Claude (Microsoft Foundry) call failed: ${msg}\n\n` +
-            'Check the resource/base URL, API key and model deployment in Setup — or switch the assistant back to the offline mode. ' +
-            'If this is a CORS error, route the call through a small server-side proxy (see README).',
+            `The assistant request failed: ${msg}\n\n` +
+            'Check the connection settings in Setup, or switch to offline mode.',
         })
       } finally {
         busyRef.current = false
