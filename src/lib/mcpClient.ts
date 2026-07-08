@@ -65,6 +65,16 @@ export class McpBridge {
     // an explicitly configured helper Function is authoritative — no fallback
     if (this.remoteProxy) return attempt(this.remoteProxy)
 
+    // the relative /api/mcp dev proxy only exists under `npm run dev` — on a
+    // deployed static site, fail with instructions instead of a confusing 405
+    const host = typeof window !== 'undefined' ? window.location.hostname : ''
+    if (host && host !== 'localhost' && host !== '127.0.0.1') {
+      throw new Error(
+        'No MCP helper configured. On a deployed site, set the Helper Function base URL ' +
+          '(and shared key) in Setup — the built-in /api/mcp proxy only exists under npm run dev.',
+      )
+    }
+
     if (this.mode === 'direct') return attempt(this.url)
     if (this.mode === 'proxy') return attempt(PROXY_PATH)
 
