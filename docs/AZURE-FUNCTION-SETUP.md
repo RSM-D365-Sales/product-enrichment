@@ -9,8 +9,10 @@ Step-by-step portal instructions for deploying the helper Function App in
 | `GET /api/mcp-token` | Mints a bearer token for the F&O environment via client credentials (cached until expiry) |
 | `POST /api/mcp` | Forwards MCP JSON-RPC to the Dynamics 365 ERP MCP server, auto-injecting the token |
 
-Repo: `https://github.com/RSM-D365-Sales/product-enrichment` · Deployed site (GitHub
-Pages): `https://rsm-d365-sales.github.io/product-enrichment/`
+Repo: `https://github.com/RSM-D365-Sales/product-enrichment` · Deployed site:
+`https://www.rsmd365.com/product-enrichment/` (the org's custom Pages domain — the
+`rsm-d365-sales.github.io` URL 301-redirects there, so the browser origin is
+`https://www.rsmd365.com`)
 
 ---
 
@@ -25,7 +27,7 @@ Have these ready before you start (a scratch notepad helps):
 | 3 | Client secret value | The app registration (Step 1) — visible **once** |
 | 4 | F&O environment URL | e.g. `https://your-env.sandbox.operations.dynamics.com` (no trailing slash) |
 | 5 | MCP URL | value #4 + `/mcp` |
-| 6 | Allowed origin | `https://rsm-d365-sales.github.io` — **scheme + host only, no path, no trailing slash** (an "origin" never includes `/product-enrichment/`) |
+| 6 | Allowed origin | `https://www.rsmd365.com` — **scheme + host only, no path, no trailing slash** (an "origin" never includes `/product-enrichment/`; the org's custom domain is what the browser reports, not `rsm-d365-sales.github.io`) |
 | 7 | Shared key | Invent a long random string (25+ chars), e.g. from a password generator |
 
 ## Step 1 — Entra ID app registration (skip if you already have one)
@@ -79,7 +81,7 @@ Have these ready before you start (a scratch notepad helps):
    | `D365_CLIENT_SECRET` | value #3 |
    | `D365_RESOURCE` | value #4 |
    | `D365_MCP_URL` | value #5 |
-   | `ALLOWED_ORIGIN` | value #6 (`https://rsm-d365-sales.github.io`) |
+   | `ALLOWED_ORIGIN` | value #6 (`https://www.rsmd365.com`) |
    | `PROXY_SHARED_KEY` | value #7 |
 
 3. **Apply / Save** (the app restarts). The secret is now encrypted at rest in app
@@ -140,7 +142,7 @@ On the deployed site (or localhost) → **Setup → Dynamics 365 ERP MCP**:
 
 | If the MCP test fails with… | Check… |
 | --- | --- |
-| CORS error in the browser console | `ALLOWED_ORIGIN` exactly equals the site's origin — `https://rsm-d365-sales.github.io`, no path/trailing slash. Restart isn't needed; re-save settings and retry |
+| CORS error in the browser console | `ALLOWED_ORIGIN` exactly equals the site's origin — `https://www.rsmd365.com`, no path/trailing slash. Restart isn't needed; re-save settings and retry |
 | `401/403` from the D365 endpoint | Step 2: client ID on **Allowed MCP clients**, app mapped to a user, user has roles |
 | `400 MCP target must be …dynamics.com` | The MCP URL field / `D365_MCP_URL` value |
 | `502` | The Function couldn't reach the environment (URL typo, or environment in a servicing window) |

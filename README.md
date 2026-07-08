@@ -119,7 +119,7 @@ az functionapp config appsettings set -n <unique-func-name> -g rg-pea-demo --set
   D365_CLIENT_SECRET=<secret-value> \
   D365_RESOURCE=https://<environment>.operations.dynamics.com \
   D365_MCP_URL=https://<environment>.operations.dynamics.com/mcp \
-  ALLOWED_ORIGIN=https://<your-github-username>.github.io \
+  ALLOWED_ORIGIN=https://www.rsmd365.com \
   PROXY_SHARED_KEY=<long-random-string>
 
 cd azure-function && npm install && func azure functionapp publish <unique-func-name>
