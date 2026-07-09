@@ -12,18 +12,34 @@ const SUGGESTIONS = [
 export function ChatPanel() {
   const { messages, busy, providerLabel, send, confirmCard, dismissCard, clear } = useChat()
   const [draft, setDraft] = useState('')
+  const [collapsed, setCollapsed] = useState(false)
   const bodyRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const el = bodyRef.current
     if (el) el.scrollTop = el.scrollHeight
-  }, [messages])
+  }, [messages, collapsed])
 
   const submit = (e?: FormEvent) => {
     e?.preventDefault()
     if (!draft.trim() || busy) return
     void send(draft)
     setDraft('')
+  }
+
+  if (collapsed) {
+    return (
+      <aside className="chat collapsed" aria-label="Product enrichment assistant">
+        <button
+          className="chat-expand"
+          onClick={() => setCollapsed(false)}
+          title="Show assistant"
+          aria-label="Show assistant"
+        >
+          «<span className="chat-expand-label">Assistant</span>
+        </button>
+      </aside>
+    )
   }
 
   return (
@@ -33,14 +49,24 @@ export function ChatPanel() {
           <div className="title">Enrichment Assistant</div>
           <div className="mode">{providerLabel}</div>
         </div>
-        <button
-          className="btn small"
-          onClick={clear}
-          disabled={busy}
-          title="Start a new conversation"
-        >
-          New chat
-        </button>
+        <div className="chat-head-actions">
+          <button
+            className="btn small"
+            onClick={clear}
+            disabled={busy}
+            title="Start a new conversation"
+          >
+            New chat
+          </button>
+          <button
+            className="btn small"
+            onClick={() => setCollapsed(true)}
+            title="Hide assistant"
+            aria-label="Hide assistant"
+          >
+            »
+          </button>
+        </div>
       </div>
 
       <div className="chat-body" ref={bodyRef}>
